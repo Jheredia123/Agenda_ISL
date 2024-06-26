@@ -1,0 +1,41 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5; /* Color de fondo de la página */
+  }
+  
+  mat-card {
+    width: 400px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para el card */
+    border-radius: 10px; /* Bordes redondeados */
+  }
+  
+  mat-card-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  button[mat-raised-button] {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  @media (max-width: 480px) {
+    mat-card {
+      width: 90%;
+    }
+  }
+  
