@@ -1,27 +1,64 @@
 import { CdkTableDataSourceInput } from '@angular/cdk/table';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { MatTableDataSource } from '@angular/material/table';
+import { Usuario } from 'src/app/model/usuario.model';
+import { UsuarioService } from 'src/app/service/usuario.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { EmpresaService } from 'src/app/service/empresa.service';
+import { Empresa } from 'src/app/model/empresa.model';
 
 @Component({
   selector: 'app-solicitudes',
   templateUrl: './solicitudes.component.html',
   styleUrls: ['./solicitudes.component.css']
 })
-export class SolicitudesComponent {
+export class SolicitudesComponent implements OnInit {
 
-solicitud = {
-  run: '',
-  nombres: '',
-  apellidos: '',
-  fechaCreacion: new Date(),
-  razonSocial: '',
-  direccion: '',
-  region: '',
-  comuna: '',
-  actividadEconomica: '',
-  examen: ''
-};
-  
+  usuario: Usuario | null = null;
+  solicitudForm: FormGroup;
+  readonly date = new Date();
+  empresaEncontrada: Empresa | undefined;;
+
+  constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private empresaService: EmpresaService) {
+    this.usuario = this.usuarioService.getUsuario();
+    const today = new Date();
+    this.solicitudForm = this.fb.group({
+      run: [{ value: this.usuario?.rut, disabled: true }],
+      nombres: [{ value: this.usuario?.nombres, disabled: true }],
+      apellidos: [{ value: this.usuario?.apellidos, disabled: true }],
+      fechaCreacion: [{ value: today, disabled: true }],
+      rutEmpresa: [''],
+      razonSocial: [''],
+      direccion: [''],
+      region: [''],
+      comuna: [''],
+      actividadEconomica: [''],
+      descripcion: [''],
+      examen: ['']
+
+    });
+  }
+
+  ngOnInit(): void {
+
+    console.log('Usuario en session:', this.usuario);
+    if (this.usuario) {
+      this.solicitudForm.patchValue(this.usuario);
+    }
+    console.log('Usuario en session  :' + this.usuario);
+
+
+
+  }
+  displayedColumns: string[] = ['rut', 'nombre', 'edad', 'descargar'];
+
+  errorMessage: string = '';
+  actividades: any;
+
+
+
   // Definición de las columnas de la tabla
   examColumns: string[] = ['nombre', 'recomendacion'];
 
@@ -42,21 +79,37 @@ solicitud = {
     { rut: '333333-3', nombre: 'Mariah Maclachlan', edad: 41 },
   ];
 
-  displayedColumns: string[] = ['rut', 'nombre', 'edad', 'descargar'];
 
 
-actividades: any;
+  verRecomendaciones(examen: any): void {
+    console.log('Recomendaciones para:', examen.nombre);
+  }
 
-  // agregarTrabajador() {
-  //   // Logic to add a new worker
-  // }
 
-  // crearSolicitud() {
-  //   // Logic to create the solicitud
-  // }
-
-    // Método para manejar el clic en el botón de recomendación
-    verRecomendaciones(examen: any): void {
-      console.log('Recomendaciones para:', examen.nombre);
+  buscarEmpresaPorRut(): void {
+    const rutEmpresa = this.solicitudForm.get('rutEmpresa')?.value;
+    
+    if (rutEmpresa) {
+      this.empresaService.getEmpresaByRut(rutEmpresa)
+        .subscribe({
+          next: (response) => {
+            this.empresaEncontrada = response;          
+            this.solicitudForm.controls['razonSocial'].setValue(this.empresaEncontrada.razonSocial);
+            this.errorMessage= '';
+          },
+          error: (error) => {
+            // Manejar errores de login
+            if (error.status === 400) {
+              this.errorMessage = 'Rut o contraseña inválidos. Verifica tus credenciales.';
+            } else {
+              this.errorMessage = 'Error en el servidor. Rut no existe.';
+            }
+          }
+        });
     }
+  }
+
+
+
+
 }

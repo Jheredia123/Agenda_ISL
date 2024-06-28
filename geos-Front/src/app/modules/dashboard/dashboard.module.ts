@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { MatTableModule } from '@angular/material/table';
 import { MaterialModule } from '../shared/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+// Otros imports
 
 
 
@@ -18,7 +20,8 @@ import { MaterialModule } from '../shared/material.module';
   imports: [
     CommonModule,
     SharedModule, 
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
   ]
 })
 export class DashboardModule { }
