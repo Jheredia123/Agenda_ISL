@@ -59,16 +59,12 @@
             <input matInput placeholder="" formControlName="direccion" />
           </mat-form-field>
           <mat-form-field class="form-field">
-            <mat-label>Región</mat-label>
-            <mat-select formControlName="region">
-              <mat-option *ngFor="let region of regiones" [value]="region">{{ region }}</mat-option>
-            </mat-select>
+            <mat-label>Región</mat-label>            
+              <input matInput placeholder="" formControlName="region" />          
           </mat-form-field>
           <mat-form-field class="form-field">
             <mat-label>Comuna</mat-label>
-            <mat-select formControlName="comuna">
-              <mat-option *ngFor="let comuna of comunas" [value]="comuna">{{ comuna }}</mat-option>
-            </mat-select>
+              <input matInput placeholder="" formControlName="comuna" />           
           </mat-form-field>
         </div>
 

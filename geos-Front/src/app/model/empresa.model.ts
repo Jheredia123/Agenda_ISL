@@ -6,6 +6,10 @@ export interface Empresa {
     fono: string;
     correo: string;
     tipo: string;
-    estado: string;
+    direccion: string;
+    region: string;
+    comuna: string;
+    codigoAE: string;
+    vigente: string;
   }
   

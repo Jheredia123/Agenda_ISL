@@ -95,6 +95,9 @@ export class SolicitudesComponent implements OnInit {
           next: (response) => {
             this.empresaEncontrada = response;          
             this.solicitudForm.controls['razonSocial'].setValue(this.empresaEncontrada.razonSocial);
+            this.solicitudForm.controls['direccion'].setValue(this.empresaEncontrada.direccion);
+            this.solicitudForm.controls['region'].setValue(this.empresaEncontrada.region);
+            this.solicitudForm.controls['comuna'].setValue(this.empresaEncontrada.comuna);
             this.errorMessage= '';
           },
           error: (error) => {

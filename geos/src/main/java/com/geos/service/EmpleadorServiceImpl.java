@@ -45,7 +45,7 @@ public class EmpleadorServiceImpl implements IEmpleadorService{
             empleador.setFono(empleadorDetails.getFono());
             empleador.setCorreo(empleadorDetails.getCorreo());
             empleador.setTipo(empleadorDetails.getTipo());
-            empleador.setEstado(empleadorDetails.getEstado());
+
             return empleadorRepository.save(empleador);
         }).orElseThrow(() -> new RuntimeException("Empleador not found with id " + id));
     }
