@@ -21,7 +21,7 @@ public class LoginController {
 	ILoginService service;
 	
 	/**
-	 * get all the categories
+	 * 
 	 * 
 	 * @return
 	 */

@@ -1,156 +1,138 @@
 package com.geos.entity;
 
-import java.io.Serializable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "USUARIOS")
-public class Usuarios  implements Serializable{
+public class Usuarios {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3723634872385694167L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IDUSUARIO")
+    private int idUsuario;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idusuario")
-	private Long idUsuario;
+    @Column(name = "RUT", unique = true, nullable = false)
+    private String rut;
 
-	@Column(name = "rut", unique = true, nullable = false)
-	private String rut;
+    @Column(name = "NOMBRES", nullable = false)
+    private String nombres;
 
-	@Column(name = "nombres", nullable = false)
-	private String nombres;
+    @Column(name = "APELLIDOS", nullable = false)
+    private String apellidos;
 
-	@Column(name = "apellidos", nullable = false)
-	private String apellidos;
+    @Column(name = "REGION", nullable = false)
+    private String region;
 
-	@Column(name = "region", nullable = false)
-	private String region;
+    @Column(name = "COMUNA", nullable = false)
+    private String comuna;
 
-	@Column(name = "comuna", nullable = false)
-	private String comuna;
+    @Column(name = "TIPO", nullable = false)
+    private String tipo;
 
-	@Column(name = "tipo", nullable = false)
-	private String tipo;
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
 
-	@Column(name = "email", nullable = false)
-	private String email;
+    @Column(name = "FONO", nullable = false)
+    private String fono;
 
-	@Column(name = "fono", nullable = false)
-	private String fono;
+    @Column(name = "CLAVE", nullable = false)
+    private String clave;
 
-	@Column(name = "clave", nullable = false)
-	private String clave;
+    @Column(name = "VIGENTE", nullable = false)
+    private boolean vigente;
 
-	@Column(name = "estado", nullable = false)
-	private String estado;
+    // Getters and setters
 
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
+    public int getIdUsuario() {
+        return idUsuario;
+    }
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
-	public String getRut() {
-		return rut;
-	}
+    public String getRut() {
+        return rut;
+    }
 
-	public void setRut(String rut) {
-		this.rut = rut;
-	}
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
 
-	public String getNombres() {
-		return nombres;
-	}
+    public String getNombres() {
+        return nombres;
+    }
 
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
-	}
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
 
-	public String getApellidos() {
-		return apellidos;
-	}
+    public String getApellidos() {
+        return apellidos;
+    }
 
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
-	public String getRegion() {
-		return region;
-	}
+    public String getRegion() {
+        return region;
+    }
 
-	public void setRegion(String region) {
-		this.region = region;
-	}
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
-	public String getComuna() {
-		return comuna;
-	}
+    public String getComuna() {
+        return comuna;
+    }
 
-	public void setComuna(String comuna) {
-		this.comuna = comuna;
-	}
+    public void setComuna(String comuna) {
+        this.comuna = comuna;
+    }
 
-	public String getTipo() {
-		return tipo;
-	}
+    public String getTipo() {
+        return tipo;
+    }
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getFono() {
-		return fono;
-	}
+    public String getFono() {
+        return fono;
+    }
 
-	public void setFono(String fono) {
-		this.fono = fono;
-	}
+    public void setFono(String fono) {
+        this.fono = fono;
+    }
 
-	public String getClave() {
-		return clave;
-	}
+    public String getClave() {
+        return clave;
+    }
 
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
 
-	public String getEstado() {
-		return estado;
-	}
+    public boolean isVigente() {
+        return vigente;
+    }
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-	
-	
-	
+    public void setVigente(boolean vigente) {
+        this.vigente = vigente;
+    }
 }

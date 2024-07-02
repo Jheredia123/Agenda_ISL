@@ -35,7 +35,7 @@ export class LoginService {
 
   handleLoginResponse(response: any): void {
     const usuario = new Usuario(
-      response.idUsuario,
+      response.id,
       response.rut,
       response.nombres,
       response.apellidos,
@@ -44,7 +44,8 @@ export class LoginService {
       response.tipo,
       response.email,
       response.fono,
-      response.clave
+      response.clave,
+      response.vigente
     );
     this.usuarioService.setUsuario(usuario);
   }

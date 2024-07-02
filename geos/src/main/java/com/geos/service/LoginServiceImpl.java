@@ -48,7 +48,7 @@ public class LoginServiceImpl implements ILoginService {
 
 	private UsuarioDTO convertToDTO(Usuarios usuario) {
 		UsuarioDTO dto = new UsuarioDTO();
-		dto.setIdusuario(usuario.getIdUsuario());
+		dto.setId(usuario.getIdUsuario());
 		dto.setRut(usuario.getRut());
 		dto.setNombres(usuario.getNombres());
 		dto.setApellidos(usuario.getApellidos());
@@ -58,7 +58,7 @@ public class LoginServiceImpl implements ILoginService {
 		dto.setEmail(usuario.getEmail());
 		dto.setFono(usuario.getFono());
 		dto.setClave(usuario.getClave());
-		dto.setEstado(usuario.getEstado());
+		dto.setVigente(usuario.isVigente());
 		return dto;
 	}
 

@@ -47,7 +47,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	private UsuarioDTO convertToDTO(Usuarios usuario) {
 		UsuarioDTO dto = new UsuarioDTO();
-		dto.setIdusuario(usuario.getIdUsuario());
+		dto.setId(usuario.getIdUsuario());
 		dto.setRut(usuario.getRut());
 		dto.setNombres(usuario.getNombres());
 		dto.setApellidos(usuario.getApellidos());
@@ -57,7 +57,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		dto.setEmail(usuario.getEmail());
 		dto.setFono(usuario.getFono());
 		dto.setClave(usuario.getClave());
-		dto.setEstado(usuario.getEstado());
+		dto.setVigente(usuario.isVigente());
 		return dto;
 	}
 

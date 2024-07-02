@@ -1,6 +1,6 @@
 import { CdkTableDataSourceInput } from '@angular/cdk/table';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatTableDataSource } from '@angular/material/table';
 import { Usuario } from 'src/app/model/usuario.model';
@@ -8,6 +8,7 @@ import { UsuarioService } from 'src/app/service/usuario.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmpresaService } from 'src/app/service/empresa.service';
 import { Empresa } from 'src/app/model/empresa.model';
+import { rutValidator } from '../../shared/rut-validator';
 
 @Component({
   selector: 'app-solicitudes',
@@ -29,7 +30,7 @@ export class SolicitudesComponent implements OnInit {
       nombres: [{ value: this.usuario?.nombres, disabled: true }],
       apellidos: [{ value: this.usuario?.apellidos, disabled: true }],
       fechaCreacion: [{ value: today, disabled: true }],
-      rutEmpresa: [''],
+      rutEmpresa: ['',  [Validators.required, rutValidator()]],
       razonSocial: [''],
       direccion: [''],
       region: [''],
@@ -86,11 +87,10 @@ export class SolicitudesComponent implements OnInit {
   }
 
 
-  buscarEmpresaPorRut(): void {
-    const rutEmpresa = this.solicitudForm.get('rutEmpresa')?.value;
-    
-    if (rutEmpresa) {
-      this.empresaService.getEmpresaByRut(rutEmpresa)
+  buscarEmpresaPorRut():void {
+    const rut = this.solicitudForm.get('rutEmpresa')?.value;
+    if (this.solicitudForm.get('rutEmpresa')?.valid) {
+      this.empresaService.getEmpresaByRut(rut)
         .subscribe({
           next: (response) => {
             this.empresaEncontrada = response;          

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class UsuarioDTO {
 	
-	private Long id;
+	private int id;
     private String rut;
     private String nombres;
     private String apellidos;
@@ -17,11 +17,12 @@ public class UsuarioDTO {
     private String email;
     private String fono;
     private String clave;
-    private String estado;
-	public Long getId() {
+    private boolean vigente;
+    
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getRut() {
@@ -78,19 +79,14 @@ public class UsuarioDTO {
 	public void setClave(String clave) {
 		this.clave = clave;
 	}
-	public String getEstado() {
-		return estado;
+	public boolean isVigente() {
+		return vigente;
 	}
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	public void setIdusuario(Long idUsuario) {
-		// TODO Auto-generated method stub
-		
+	public void setVigente(boolean vigente) {
+		this.vigente = vigente;
 	}
 
-    
-    
+	
     
     
     

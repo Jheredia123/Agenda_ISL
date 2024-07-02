@@ -1,6 +1,6 @@
 export class Usuario {
     constructor(
-        public idUsuario: String,
+        public id: String,
         public rut: String,
         public nombres: String,
         public apellidos: String,
@@ -9,7 +9,8 @@ export class Usuario {
         public tipo: String,
         public email: String,
         public fono: String,
-        public clave: String
+        public clave: String,
+        public vigente: String
     ) { }
 }
 
