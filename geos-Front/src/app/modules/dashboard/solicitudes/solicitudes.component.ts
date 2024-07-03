@@ -17,11 +17,6 @@ import { rutValidator } from '../../shared/rut-validator';
 })
 export class SolicitudesComponent implements OnInit {
 
-  usuario: Usuario | null = null;
-  solicitudForm: FormGroup;
-  readonly date = new Date();
-  empresaEncontrada: Empresa | undefined;;
-
   constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private empresaService: EmpresaService) {
     this.usuario = this.usuarioService.getUsuario();
     const today = new Date();
@@ -41,6 +36,15 @@ export class SolicitudesComponent implements OnInit {
 
     });
   }
+
+  usuario: Usuario | null = null;
+  solicitudForm: FormGroup;
+  readonly date = new Date();
+  empresaEncontrada: Empresa | undefined;;
+
+  regiones = [];
+  comunas = [];
+  actividadesEconomicas = [];
 
   ngOnInit(): void {
 
@@ -70,9 +74,7 @@ export class SolicitudesComponent implements OnInit {
     { nombre: 'Examen 3', recomendacion: 'Recomendación 3' }
   ]);
 
-  regiones = ['Región 1', 'Región 2', 'Región 3'];
-  comunas = ['Comuna 1', 'Comuna 2', 'Comuna 3'];
-  actividadesEconomicas = ['Actividad 1', 'Actividad 2', 'Actividad 3'];
+
 
   trabajadores = [
     { rut: '111111-1', nombre: 'Giacomo Guillizzoni', edad: 32 },
@@ -95,9 +97,17 @@ export class SolicitudesComponent implements OnInit {
           next: (response) => {
             this.empresaEncontrada = response;          
             this.solicitudForm.controls['razonSocial'].setValue(this.empresaEncontrada.razonSocial);
+            this.solicitudForm.controls['razonSocial'].disable();
             this.solicitudForm.controls['direccion'].setValue(this.empresaEncontrada.direccion);
+            this.solicitudForm.controls['direccion'].disable();
             this.solicitudForm.controls['region'].setValue(this.empresaEncontrada.region);
+            this.solicitudForm.controls['region'].disable();
             this.solicitudForm.controls['comuna'].setValue(this.empresaEncontrada.comuna);
+            this.solicitudForm.controls['comuna'].disable();
+            this.solicitudForm.controls['actividadEconomica'].setValue(this.empresaEncontrada.actividadEconomica.codigoAE);
+            this.solicitudForm.controls['actividadEconomica'].disable();
+            this.solicitudForm.controls['descripcion'].setValue(this.empresaEncontrada.actividadEconomica.descripcion);
+            this.solicitudForm.controls['descripcion'].disable();
             this.errorMessage= '';
           },
           error: (error) => {

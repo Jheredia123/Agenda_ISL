@@ -1,4 +1,7 @@
+import { ActividadEconomica } from "./ActividadEconomica";
+
 export interface Empresa {
+  actividadEconomica: ActividadEconomica;
     idempleador: number;
     rut: string;
     razonSocial: string;

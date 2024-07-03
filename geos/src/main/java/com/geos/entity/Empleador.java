@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -43,8 +45,10 @@ public class Empleador {
 	@Column(name = "COMUNA", nullable = false, length = 255)
 	private String comuna;
 
-	@Column(name = "CODIGOAEO", nullable = false, length = 255)
-	private String codigoAE;
+	@ManyToOne
+	@JoinColumn(name = "CODIGOAE", nullable = false)
+	private ActividadEconomica actividadEconomica;
+
 
 	@Column(name = "VIGENTE", nullable = false)
 	private boolean vigente;
@@ -130,14 +134,17 @@ public class Empleador {
 		this.comuna = comuna;
 	}
 
-	public String getCodigoAE() {
-		return codigoAE;
+
+	public ActividadEconomica getActividadEconomica() {
+		return actividadEconomica;
 	}
 
-	public void setCodigoAE(String codigoAE) {
-		this.codigoAE = codigoAE;
+	public void setActividadEconomica(ActividadEconomica actividadEconomica) {
+		this.actividadEconomica = actividadEconomica;
 	}
 
+	
+	
 	public boolean isVigente() {
 		return vigente;
 	}

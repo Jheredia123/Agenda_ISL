@@ -72,9 +72,7 @@
         <div class="form-group">
           <mat-form-field class="form-field">
             <mat-label>Código</mat-label>
-            <mat-select formControlName="actividadEconomica">
-              <mat-option *ngFor="let actividad of actividades" [value]="actividad">{{ actividad }}</mat-option>
-            </mat-select>
+            <input matInput placeholder="" formControlName="actividadEconomica" />
           </mat-form-field>
           <mat-form-field class="form-field">
             <mat-label>Descripción</mat-label>
