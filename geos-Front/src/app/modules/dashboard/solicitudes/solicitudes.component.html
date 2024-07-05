@@ -132,36 +132,44 @@
         <div class="form-group">
           <mat-form-field class="form-field">
             <mat-label>Tipo Batería</mat-label>
-            <input matInput />
+            <mat-select (selectionChange)="onSelectChange($event)">
+              <mat-option *ngFor="let bateria of baterias" [value]="bateria.nombre">
+                {{ bateria.nombre }}
+              </mat-option>
+            </mat-select>
+          
           </mat-form-field>
-          <mat-form-field class="form-field">
-            <mat-label>Agentes Neumoconiógenos</mat-label>
-            <input matInput />
-          </mat-form-field>
+        
+        </div>
+        <mat-divider></mat-divider>
+
+        <mat-card-subtitle>Recomencion</mat-card-subtitle>
+        <div class="form-group">
+          <mat-card-content>{{recomendacion}}</mat-card-content>
         </div>
 
+
+
+        
+     
         <mat-divider></mat-divider>
+
 
         <mat-card-subtitle>Exámenes de la batería</mat-card-subtitle>
         <div class="form-group">
-          <mat-table [dataSource]="examenes" class="mat-table">
-            <!-- Columns definitions for Examenes -->
+          <table mat-table [dataSource]="examenes" class="mat-table">
+            <!-- Nombre Column -->
             <ng-container matColumnDef="nombre">
               <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+              <mat-cell *matCellDef="let element"> {{ element.nombre }} </mat-cell>
             </ng-container>
-
-            <ng-container matColumnDef="recomendacion">
-              <mat-header-cell *matHeaderCellDef> Recomendación </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <button mat-button color="primary">Ver recomendaciones</button>
-              </mat-cell>
-            </ng-container>
-
+        
+       
             <mat-header-row *matHeaderRowDef="examColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: examColumns;"></mat-row>
-          </mat-table>
+          </table>
         </div>
+
         <div class="button-group">
           <button mat-raised-button color="primary" type="submit">Crear Solicitud</button>
         </div>

@@ -10,6 +10,13 @@ import { EmpresaService } from 'src/app/service/empresa.service';
 import { Empresa } from 'src/app/model/empresa.model';
 import { rutValidator } from '../../shared/rut-validator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RecomendacionDialogComponent } from '../../shared/components/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Bateria } from 'src/app/model/Bateria';
+import { BateriaService } from 'src/app/bateria.service';
+import { ExamenService } from 'src/app/examen.service';
+import { Examen } from 'src/app/model/Examen';
+
 
 @Component({
   selector: 'app-solicitudes',
@@ -18,7 +25,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SolicitudesComponent implements OnInit {
 
-  
+
   usuario: Usuario | null = null;
   solicitudForm: FormGroup;
   readonly date = new Date();
@@ -29,15 +36,22 @@ export class SolicitudesComponent implements OnInit {
   actividadesEconomicas = [];
   displayedColumns: string[] = ['rut', 'nombre', 'edad', 'actions'];
   trabajadores: FormArray | undefined;
-  dataSource = new MatTableDataSource<any>();  
+  dataSource = new MatTableDataSource<any>();
   errorMessage: string = '';
   actividades: any;
+  recomendacion: any;
+  baterias: Bateria[] = [];
+
+  examenes: Examen[] = [];
+  examColumns: string[] = ['nombre']; // Define las columnas que quieres mostrar
+  selectedBateriaId: number | undefined;
 
 
 
 
-  constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private empresaService: EmpresaService,
-    private snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private usuarioService: UsuarioService,
+    private empresaService: EmpresaService, public dialog: MatDialog, private snackBar: MatSnackBar,
+    private bateriaService: BateriaService, private examenesService: ExamenService) {
     this.usuario = this.usuarioService.getUsuario();
     const today = new Date();
     this.solicitudForm = this.fb.group({
@@ -60,6 +74,7 @@ export class SolicitudesComponent implements OnInit {
   }
 
 
+
   ngOnInit(): void {
 
     console.log('Usuario en session:', this.usuario);
@@ -67,19 +82,18 @@ export class SolicitudesComponent implements OnInit {
       this.solicitudForm.patchValue(this.usuario);
     }
     console.log('Usuario en session  :' + this.usuario);
+    // Inicializa los datos de los exámenes
+
+    this.getBaterias();
   }
 
 
-  // Definición de las columnas de la tabla
-  examColumns: string[] = ['nombre', 'recomendacion'];
 
+  getBaterias(): void {
+    this.bateriaService.getBaterias().subscribe(baterias =>
+       this.baterias = baterias);
+  }
   // Data para la tabla
-  examenes = new MatTableDataSource([
-    { nombre: 'Examen 1', recomendacion: 'Recomendación 1' },
-    { nombre: 'Examen 2', recomendacion: 'Recomendación 2' },
-    { nombre: 'Examen 3', recomendacion: 'Recomendación 3' }
-  ]);
-
 
   verRecomendaciones(examen: any): void {
     console.log('Recomendaciones para:', examen.nombre);
@@ -149,6 +163,37 @@ export class SolicitudesComponent implements OnInit {
       this.trabajadores.removeAt(index);
       this.dataSource.data = this.trabajadores.controls;
     }
+  }
+  onSelectChange(event: any): void {
+    const selectedExamen = this.baterias.find(bateria => bateria.nombre === event.value);
+ 
+    console.log('bateria ' +  selectedExamen) ;
+    if (selectedExamen) {
+      this.recomendacion = selectedExamen.recomendacion;
+      this.onSelectBateria(selectedExamen);
+      //This.dialog.open(RecomendacionDialogComponent, {
+      //data: { recomendacion: selectedExamen.recomendacion }
+      //});
+    }
+  }
+
+  onSelectBateria(selectedExamen: any): void {    
+    console.log('bateria ' +  selectedExamen.idBatteria) ;
+      this.examenesService.buscarPorIdBateria(selectedExamen.idBatteria).subscribe({
+        next: (response) => {
+          this.examenes = response;
+        },
+        error: (error) => {
+          if (error.status == 404) {
+            this.errorMessage = 'Empleador no afiliado';
+          } else if (error.status === 400) {
+            this.errorMessage = 'Rut o contraseña inválidos. Verifica tus credenciales.';
+          } else {
+            this.errorMessage = 'Error en el servidor. Inténtelo más tarde.';
+          }
+          this.showErrorSnackbar(this.errorMessage);
+        }
+      });
   }
 
 
