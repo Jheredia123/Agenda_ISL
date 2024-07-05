@@ -32,8 +32,12 @@
     margin-bottom: 16px; /* Espacio adicional inferior si es necesario */
   }
 
-  
-  
+  .form-field2 {
+    width: 200%; /* Ajusta el ancho de los campos de formulario */
+    margin-bottom: 16px; /* Espacio adicional inferior si es necesario */
+  }
+
+
   .button-group {
     display: flex;
     justify-content: flex-end; /* Alinea los botones a la derecha */
@@ -59,8 +63,8 @@
     font-weight: bold; /* Texto en negrita */
   }
   
-  .mat-cell {
-    padding: 16px; /* Espaciado interno de las celdas */
+   .mat-cell {
+    padding: 0px; /* Espaciado interno de las celdas */
     border-bottom: 1px solid #e0e0e0; /* Línea de separación entre filas */
   }
   
@@ -75,3 +79,11 @@
   .mat-table .mat-row {
     height: 48px; /* Altura de las filas de datos */
   }
+
+  mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+    padding-left: 0px;
+}
+
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding: 0 14px 0 0px;
+}

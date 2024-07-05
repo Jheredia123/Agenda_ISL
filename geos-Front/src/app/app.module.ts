@@ -12,6 +12,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card'; // Importa MatCardModule
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,10 +28,13 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     DashboardModule,
     BrowserAnimationsModule,
+    MatTableModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatSnackBarModule,
+    MatIconModule,
     HttpClientModule
   ],
   providers: [],

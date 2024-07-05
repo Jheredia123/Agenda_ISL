@@ -29,7 +29,6 @@
         </div>
 
         <div class="form-group">
-
           <mat-form-field class="form-field">
             <mat-label>RUT</mat-label>
             <input matInput placeholder="" formControlName="rutEmpresa" />
@@ -40,9 +39,8 @@
               El RUT no es válido.
             </mat-error>
           </mat-form-field>
-          <button mat-raised-button color="primary" (click)="buscarEmpresaPorRut()">buscar</button>
-          </div>
-
+          <button mat-raised-button color="primary" (click)="buscarEmpresaPorRut()">Buscar</button>
+        </div>
 
         <div class="form-group">
           <mat-form-field class="form-field">
@@ -50,7 +48,6 @@
             <input matInput placeholder="" formControlName="razonSocial" />
           </mat-form-field>
         </div>
-
 
         <mat-card-subtitle>Comuna donde se realiza la actividad laboral</mat-card-subtitle>
         <div class="form-group">
@@ -60,11 +57,11 @@
           </mat-form-field>
           <mat-form-field class="form-field">
             <mat-label>Región</mat-label>            
-              <input matInput placeholder="" formControlName="region" />          
+            <input matInput placeholder="" formControlName="region" />          
           </mat-form-field>
           <mat-form-field class="form-field">
             <mat-label>Comuna</mat-label>
-              <input matInput placeholder="" formControlName="comuna" />           
+            <input matInput placeholder="" formControlName="comuna" />           
           </mat-form-field>
         </div>
 
@@ -76,47 +73,60 @@
           </mat-form-field>
           <mat-form-field class="form-field">
             <mat-label>Descripción</mat-label>
-            <input matInput placeholder="PRESTACION DE SERVICIOS" formControlName="descripcion" />
+            <input matInput placeholder="" formControlName="descripcion" />
           </mat-form-field>
         </div>
 
         <mat-divider></mat-divider>
 
-        <mat-card-subtitle>Datos trabajadores</mat-card-subtitle>
-        <div class="form-group">
+        <mat-card-subtitle>Datos trabajadores</mat-card-subtitle>    
+        <table mat-table [dataSource]="dataSource" class="mat-table">
+          <!-- RUT Column -->
+          <ng-container matColumnDef="rut">
+            <mat-header-cell *matHeaderCellDef> RUT </mat-header-cell>
+            <mat-cell *matCellDef="let control; let i = index" [formGroup]="control" class="cell2">
+              <mat-form-field class="form-field2 ">
+                <input matInput formControlName="rut" placeholder="RUT">
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
 
-          <mat-table [dataSource]="trabajadores" class="mat-table">
-            <!-- Columns definitions -->
-            <ng-container matColumnDef="rut">
-              <mat-header-cell *matHeaderCellDef> RUT </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.rut}} </mat-cell>
-            </ng-container>
+          <!-- Nombre Column -->
+          <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let control; let i = index" [formGroup]="control" >
+              <mat-form-field class="form-field2">
+                <input matInput formControlName="nombre" placeholder="Nombre">
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="nombre">
-              <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
-            </ng-container>
+          <!-- Edad Column -->
+          <ng-container matColumnDef="edad">
+            <mat-header-cell *matHeaderCellDef> Edad </mat-header-cell>
+            <mat-cell *matCellDef="let control; let i = index" [formGroup]="control">
+              <mat-form-field class="form-field">
+                <input matInput formControlName="edad" placeholder="Edad" type="number">
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="edad">
-              <mat-header-cell *matHeaderCellDef> Edad </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.edad}} </mat-cell>
-            </ng-container>
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let control; let i = index">
+              <button mat-icon-button color="warn" (click)="removeTrabajador(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="descargar">
-              <mat-header-cell *matHeaderCellDef> Descargar </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <button mat-button color="primary">Descargar</button>
-              </mat-cell>
-            </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </table>
+        <button mat-raised-button color="primary" (click)="addTrabajador()">Agregar Trabajador</button>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-        </div>
 
-        <div class="button-group">
-          <button mat-raised-button color="primary">Agregar Trabajador</button>
-        </div>
         <mat-card-subtitle>Batería de examen</mat-card-subtitle>
         <mat-divider></mat-divider>
         <div class="form-group">
@@ -134,7 +144,6 @@
 
         <mat-card-subtitle>Exámenes de la batería</mat-card-subtitle>
         <div class="form-group">
-
           <mat-table [dataSource]="examenes" class="mat-table">
             <!-- Columns definitions for Examenes -->
             <ng-container matColumnDef="nombre">
