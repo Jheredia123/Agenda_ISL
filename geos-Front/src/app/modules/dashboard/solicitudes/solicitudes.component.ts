@@ -13,9 +13,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RecomendacionDialogComponent } from '../../shared/components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Bateria } from 'src/app/model/Bateria';
-import { BateriaService } from 'src/app/bateria.service';
-import { ExamenService } from 'src/app/examen.service';
+import { BateriaService } from 'src/app/service/bateria.service';
+import { ExamenService } from 'src/app/service/examen.service';
 import { Examen } from 'src/app/model/Examen';
+import { Solicitud } from 'src/app/model/Solicitud.model';
+import { SolicitudesService } from 'src/app/service/solicitudes.service';
 
 
 @Component({
@@ -45,13 +47,15 @@ export class SolicitudesComponent implements OnInit {
   examenes: Examen[] = [];
   examColumns: string[] = ['nombre']; // Define las columnas que quieres mostrar
   selectedBateriaId: number | undefined;
+  bateriaID: any;
 
 
 
 
   constructor(private fb: FormBuilder, private usuarioService: UsuarioService,
     private empresaService: EmpresaService, public dialog: MatDialog, private snackBar: MatSnackBar,
-    private bateriaService: BateriaService, private examenesService: ExamenService) {
+    private bateriaService: BateriaService, private examenesService: ExamenService,
+    private solicitudService: SolicitudesService) {
     this.usuario = this.usuarioService.getUsuario();
     const today = new Date();
     this.solicitudForm = this.fb.group({
@@ -91,7 +95,7 @@ export class SolicitudesComponent implements OnInit {
 
   getBaterias(): void {
     this.bateriaService.getBaterias().subscribe(baterias =>
-       this.baterias = baterias);
+      this.baterias = baterias);
   }
   // Data para la tabla
 
@@ -166,9 +170,10 @@ export class SolicitudesComponent implements OnInit {
   }
   onSelectChange(event: any): void {
     const selectedExamen = this.baterias.find(bateria => bateria.nombre === event.value);
- 
-    console.log('bateria ' +  selectedExamen) ;
+
+    console.log('bateria ' + selectedExamen);
     if (selectedExamen) {
+      this.bateriaID = selectedExamen.idBateria;
       this.recomendacion = selectedExamen.recomendacion;
       this.onSelectBateria(selectedExamen);
       //This.dialog.open(RecomendacionDialogComponent, {
@@ -177,25 +182,63 @@ export class SolicitudesComponent implements OnInit {
     }
   }
 
-  onSelectBateria(selectedExamen: any): void {    
-    console.log('bateria ' +  selectedExamen.idBatteria) ;
-      this.examenesService.buscarPorIdBateria(selectedExamen.idBatteria).subscribe({
-        next: (response) => {
-          this.examenes = response;
-        },
-        error: (error) => {
-          if (error.status == 404) {
-            this.errorMessage = 'Empleador no afiliado';
-          } else if (error.status === 400) {
-            this.errorMessage = 'Rut o contraseña inválidos. Verifica tus credenciales.';
-          } else {
-            this.errorMessage = 'Error en el servidor. Inténtelo más tarde.';
-          }
-          this.showErrorSnackbar(this.errorMessage);
+  onSelectBateria(selectedExamen: any): void {
+    console.log('bateria ' + selectedExamen.idBatteria);
+    this.examenesService.buscarPorIdBateria(selectedExamen.idBatteria).subscribe({
+      next: (response) => {
+        this.examenes = response;
+      },
+      error: (error) => {
+        if (error.status == 404) {
+          this.errorMessage = 'Empleador no afiliado';
+        } else if (error.status === 400) {
+          this.errorMessage = 'Rut o contraseña inválidos. Verifica tus credenciales.';
+        } else {
+          this.errorMessage = 'Error en el servidor. Inténtelo más tarde.';
         }
-      });
+        this.showErrorSnackbar(this.errorMessage);
+      }
+    });
   }
 
+  guardarSolicitud(): void {
+    const solicitud: Solicitud = {
+      run: this.solicitudForm.get('run')?.value,
+      nombres: this.solicitudForm.get('nombres')?.value,
+      apellidos: this.solicitudForm.get('apellidos')?.value,
+      fechaCreacion: this.solicitudForm.get('fechaCreacion')?.value,
+      rutEmpresa: this.solicitudForm.get('rutEmpresa')?.value,
+      razonSocial: this.solicitudForm.get('razonSocial')?.value,
+      direccion: this.solicitudForm.get('direccion')?.value,
+      region: this.solicitudForm.get('region')?.value,
+      comuna: this.solicitudForm.get('comuna')?.value,
+      actividadEconomica: this.solicitudForm.get('actividadEconomica')?.value,
+      descripcion: this.solicitudForm.get('descripcion')?.value,
+      trabajadores: this.solicitudForm.get('trabajadores')?.value,
+      bateria: this.bateriaID,
+      examenes: this.examenes,
+    }
+
+    
+    
+    
+    this.solicitudService.guardarSolicitud(solicitud).subscribe({
+      next: (response) => {
+        console.log('Solicitud guardada:', response);
+        // Aquí puedes añadir lógica adicional, como most
+      },
+      error: (error) => {
+        if (error.status == 404) {
+          this.errorMessage = '';
+        } else if (error.status === 400) {
+          this.errorMessage = '';
+        } else {
+          this.errorMessage = 'Error en el servidor. Inténtelo más tarde.';
+        }
+        this.showErrorSnackbar(this.errorMessage);
+      }
+    });
+  }
 
 
 

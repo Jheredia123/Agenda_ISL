@@ -41,6 +41,8 @@
                         <div class="header"  *ngIf="usuario">
                             <h2>{{usuario.nombres}}</h2>
                             <h4>{{usuario.email}}</h4>
+                            <h5>Rol: {{usuario.tipo}}</h5>
+
                         </div>
                     </div>
 
@@ -49,7 +51,6 @@
                     <a mat-list-item [routerLink]="nav.route" *ngFor="let nav of menuNav">
                         <mat-icon class="icono"> {{ nav.icon }}</mat-icon>
                         <span class="name">{{nav.name}}</span>
-
                     </a>
 
                 </mat-nav-list>

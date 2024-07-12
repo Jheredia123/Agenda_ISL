@@ -21,54 +21,53 @@ import com.geos.service.IEmpleadorService;
 @RestController
 @RequestMapping("geos/empleadores")
 public class EmpleadorController {
-	  @Autowired
-	    private IEmpleadorService empleadorService;
 
-	    @GetMapping
-	    public List<Empleador> getAllEmpleadores() {
-	        return empleadorService.getAllEmpleadores();
-	    }
+	@Autowired
+	private IEmpleadorService empleadorService;
 
-	    @PostMapping
-	    public Empleador createEmpleador(@RequestBody Empleador empleador) {
-	        return empleadorService.createEmpleador(empleador);
-	    }
+	@GetMapping
+	public List<Empleador> getAllEmpleadores() {
+		return empleadorService.getAllEmpleadores();
+	}
 
-	    @GetMapping("/{id}")
-	    public ResponseEntity<Empleador> getEmpleadorById(@PathVariable Integer id) {
-	        return empleadorService.getEmpleadorById(id)
-	                .map(ResponseEntity::ok)
-	                .orElse(ResponseEntity.notFound().build());
-	    }
-	    
+	@PostMapping
+	public Empleador createEmpleador(@RequestBody Empleador empleador) {
+		return empleadorService.createEmpleador(empleador);
+	}
 
-	    @GetMapping("/buscarPorRut/{rut}")
-	    public ResponseEntity<Empleador> buscarPorRut(@PathVariable String rut) {
-	        Empleador empleador = empleadorService.buscarPorRut(rut);
-	        if (empleador != null) {
-	            return ResponseEntity.ok(empleador);
-	        } else {
-	            return ResponseEntity.notFound().build();
-	        }
-	    }
+	@GetMapping("/{id}")
+	public ResponseEntity<Empleador> getEmpleadorById(@PathVariable Integer id) {
+		return empleadorService.getEmpleadorById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+	}
 
-	    @PutMapping("/{id}")
-	    public ResponseEntity<Empleador> updateEmpleador(@PathVariable Integer id, @RequestBody Empleador empleadorDetails) {
-	        try {
-	            Empleador updatedEmpleador = empleadorService.updateEmpleador(id, empleadorDetails);
-	            return ResponseEntity.ok(updatedEmpleador);
-	        } catch (RuntimeException e) {
-	            return ResponseEntity.notFound().build();
-	        }
-	    }
+	@GetMapping("/buscarPorRut/{rut}")
+	public ResponseEntity<Empleador> buscarPorRut(@PathVariable String rut) {
+		Empleador empleador = empleadorService.buscarPorRut(rut);
+		if (empleador != null) {
+			return ResponseEntity.ok(empleador);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
-	    @DeleteMapping("/{id}")
-	    public ResponseEntity<Void> deleteEmpleador(@PathVariable Integer id) {
-	        try {
-	            empleadorService.deleteEmpleador(id);
-	            return ResponseEntity.ok().build();
-	        } catch (RuntimeException e) {
-	            return ResponseEntity.notFound().build();
-	        }
-	    }
+	@PutMapping("/{id}")
+	public ResponseEntity<Empleador> updateEmpleador(@PathVariable Integer id,
+			@RequestBody Empleador empleadorDetails) {
+		try {
+			Empleador updatedEmpleador = empleadorService.updateEmpleador(id, empleadorDetails);
+			return ResponseEntity.ok(updatedEmpleador);
+		} catch (RuntimeException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteEmpleador(@PathVariable Integer id) {
+		try {
+			empleadorService.deleteEmpleador(id);
+			return ResponseEntity.ok().build();
+		} catch (RuntimeException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
 }

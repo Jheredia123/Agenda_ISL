@@ -13,17 +13,23 @@ export class SidenavComponent  implements OnInit {
   usuario: Usuario | null = null;
   mobileQuery: MediaQueryList;
 
-  menuNav = [
-    {name: "Dashboard", route: "home", icon: "home"},
-    {name: "Solicitudes", route: "solicitud", icon: "create_new_folder"},
-    {name: "Agenda", route: "home", icon: "notes"}
-  ]
+  menuNav: any[] = [];
 
-  constructor(media: MediaMatcher, private usuarioService: UsuarioService,private router: Router) {
+  constructor(media: MediaMatcher, private usuarioService: UsuarioService ,private router: Router) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
   }
   ngOnInit(): void {
     this.usuario = this.usuarioService.getUsuario();
+    if (this.usuario?.tipo === 'ADMIN') {
+      this.menuNav = [
+        { name: "Dashboard", route: "home", icon: "home" },
+        { name: "Solicitudes", route: "solicitud", icon: "create_new_folder" }
+      ];
+    } else {
+      this.menuNav = [
+        { name: "Dashboard", route: "home", icon: "home" }
+      ];
+    }
   }
 
   logout(): void {

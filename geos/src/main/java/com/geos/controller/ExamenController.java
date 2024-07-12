@@ -18,7 +18,7 @@ import com.geos.service.IExamenService;
 public class ExamenController {
 	
 	@Autowired
-	IExamenService examenService;
+	private IExamenService examenService;
 	
     @GetMapping
     public List<Examen> getAllExamen() {
